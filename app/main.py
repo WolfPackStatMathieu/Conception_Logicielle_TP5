@@ -2,7 +2,9 @@ from typing import Union
 
 from fastapi import FastAPI
 from pydantic import BaseModel
-import requests
+
+
+from app.model import get_ingredients, is_vegan, requete_exemple
 
 app = FastAPI()
 
@@ -32,24 +34,3 @@ def read_item(item_id: int, q: Union[str, None] = None):
 @app.put("/items/{item_id}")
 def update_item(item_id: int, item: Item):
     return {"item_name": item.name, "item_id": item_id}
-
-
-def requete_exemple():
-    requete = requests.get(
-        "https://world.openfoodfacts.org/api/v0/product/3256540001305.json")
-    print("requete_exemple(): " + str(requete.status_code))    
-    return requete.json()
-
-
-def get_ingredients(request_json):
-    print(request_json["product"]["ingredients"])
-    return request_json["product"]["ingredients"]
-
-
-def is_vegan(ingredients):
-    is_vegan = True
-    for ingredient in ingredients:
-        if "vegan" in ingredient:
-            if ingredient["vegan"] != "yes":
-                is_vegan = False
-    return is_vegan

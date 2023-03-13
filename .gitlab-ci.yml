@@ -1,0 +1,7 @@
+tests:
+    image: ubuntu:20.04
+    script:
+    - apt update 
+    - apt install -y python3-pip
+    - pip3 install -r requirements.txt
+    - unittest
